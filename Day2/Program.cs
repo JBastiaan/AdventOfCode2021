@@ -14,18 +14,20 @@ var inputs = lines.Select(l =>
 
 int hPos = 0;
 int vPos = 0;
+int aim = 0;
 foreach (var input in inputs)
 {
     switch (input.Command)
     {
         case "forward":
             hPos += input.Value;
+            vPos += aim * input.Value;
             continue;
         case "up":
-            vPos -= input.Value;
+            aim -= input.Value;
             continue;
         case "down":
-            vPos += input.Value;
+            aim += input.Value;
             continue;
     }
 }
