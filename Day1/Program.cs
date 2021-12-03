@@ -4,7 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-string[] lines = System.IO.File.ReadAllLines(@"C:\tempdata\AdventOfCode\Day1\input.txt");
+string[] lines = System.IO.File.ReadAllLines("input.txt");
 var measurements = lines.ToList().Select(int.Parse).ToList();
 
 //Part 1
