@@ -6,10 +6,10 @@ namespace Day4
 {
     public static class Helpers
     {
-        public static List<(int Number, bool Marked)[,]> GetBoards(string[] input)
+        public static List<Board> GetBoards(string[] input)
         {
-            var result = new List<(int Number, bool Marked)[,]>();
-            var board = new (int Number, bool Marked)[5,5];
+            var result = new List<Board>();
+            var numbers = new (int Number, bool Marked)[5,5];
 
             int rowcount = 0;
             for (int i = 0; i < input.Count(); i++)
@@ -25,13 +25,13 @@ namespace Day4
 
                 for (int j = 0; j < numberRow.Length; j++)
                 {
-                    board[rowcount, j] = (numberRow[j], false);
+                    numbers[rowcount, j] = (numberRow[j], false);
                 }
 
                 if (rowcount == 4)
                 {
-                    result.Add(board);
-                    board = new (int Number, bool Marked)[5, 5];
+                    result.Add(new Board() {Numbers = numbers});
+                    numbers = new (int Number, bool Marked)[5, 5];
                     rowcount = 0;
                 }
                 else
@@ -43,21 +43,21 @@ namespace Day4
             return result;
         }
 
-        public static bool IsBingo((int Number, bool Marked)[,] board)
+        public static bool IsBingo(Board board)
         {
             return IsRowBingo(board) || IsColumnBingo(board);
         }
 
-        public static int GetScore((int Number, bool Marked)[,] board, int number)
+        public static int GetScore(Board board, int number)
         {
             var sumUnMarked = 0;
-            for (int i = 0; i < board.GetLength(0); i++)
+            for (int i = 0; i < board.Numbers.GetLength(0); i++)
             {
-                for (int j = 0; j < board.GetLength(1); j++)
+                for (int j = 0; j < board.Numbers.GetLength(1); j++)
                 {
-                    if (!board[i, j].Marked)
+                    if (!board.Numbers[i, j].Marked)
                     {
-                        sumUnMarked += board[i, j].Number;
+                        sumUnMarked += board.Numbers[i, j].Number;
                     }
                 }
             }
@@ -65,12 +65,12 @@ namespace Day4
             return sumUnMarked * number;
         }
 
-        private static bool IsRowBingo((int Number, bool Marked)[,] board)
+        private static bool IsRowBingo(Board board)
         {
-            for (int i = 0; i < board.GetLength(0); i++)
+            for (int i = 0; i < board.Numbers.GetLength(0); i++)
             {
-                var rowElements = Enumerable.Range(0, board.GetLength(0))
-                    .Select(x => board[i, x])
+                var rowElements = Enumerable.Range(0, board.Numbers.GetLength(0))
+                    .Select(x => board.Numbers[i, x])
                     .ToArray();
 
                 if (rowElements.All(r => r.Marked))
@@ -80,12 +80,12 @@ namespace Day4
             return false;
         }
         
-        private static bool IsColumnBingo((int Number, bool Marked)[,] board)
+        private static bool IsColumnBingo(Board board)
         {
-            for (int i = 0; i < board.GetLength(1); i++)
+            for (int i = 0; i < board.Numbers.GetLength(1); i++)
             {
-                var columnElements = Enumerable.Range(0, board.GetLength(1))
-                    .Select(x => board[x, i])
+                var columnElements = Enumerable.Range(0, board.Numbers.GetLength(1))
+                    .Select(x => board.Numbers[x, i])
                     .ToArray();
 
                 if (columnElements.All(r => r.Marked))

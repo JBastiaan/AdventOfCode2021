@@ -12,39 +12,6 @@ var numbers = lines.First()
 
 var boards = Helpers.GetBoards(lines.Skip(2).ToArray());
 
-var isBingo = false;
-foreach (var number in numbers)
-{
-    foreach (var board in boards)
-    {
-        for (int i = 0; i < board.GetLength(0); i++)
-        {
-            bool isFound = false;
-            for (int j = 0; j < board.GetLength(1); j++)
-            {
-                if (board[i, j].Number == number)
-                {
-                    board[i, j].Marked = true;
-                    isFound = true;
-                    break;
-                }
-            }
-
-            if (isFound)
-                break;
-        }
-
-        if (Helpers.IsBingo(board))
-        {
-            isBingo = true;
-            Console.WriteLine("Bingo found, score is: " + Helpers.GetScore(board, number));
-            break;
-        }
-    }
-
-    if (isBingo)
-        break;
-}
-
-Console.WriteLine();
+Console.WriteLine("First bingo score: " + new Bingo().FindFirstBingoScore(boards, numbers));
+Console.WriteLine("Last bingo score: " + new Bingo().FindLastBingoScore(boards, numbers));
 
