@@ -8,6 +8,11 @@ namespace Day5
         {
             return pointPair.A.X != pointPair.B.X && pointPair.A.Y != pointPair.B.Y;
         }
+
+        public static bool Is45DegreeDiagonal(this (Point A, Point B) pointPair)
+        {
+            return Math.Abs(pointPair.A.X - pointPair.B.X) == Math.Abs(pointPair.A.Y - pointPair.B.Y);
+        }
         
         public static bool IsHorizontalLine(this (Point A, Point B) pointPair)
         {
