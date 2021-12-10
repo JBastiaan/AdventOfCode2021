@@ -1,5 +1,7 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 
 namespace Day10
 {
@@ -30,8 +32,31 @@ namespace Day10
                 _ => throw new Exception("Unknown closingCharacter")
             };
         }
+        
+        public static char GetClosingCharacter(this char closingCharacter)
+        {
+            return closingCharacter switch
+            {
+                '(' => ')',
+                '{' => '}',
+                '[' => ']',
+                '<' => '>',
+                _ => throw new Exception("Unknown closingCharacter")
+            };
+        }
 
-        public static int GetScore(this char closingCharacter)
+        public static string GetClosingCharacters(this List<char> openingCharacters)
+        {
+            var result = new StringBuilder();
+            for (var i = openingCharacters.Count - 1; i >= 0; i--)
+            {
+                result.Append(openingCharacters[i].GetClosingCharacter());
+            }
+
+            return result.ToString();
+        }
+
+        public static int GetIllegalScore(this char closingCharacter)
         {
             return closingCharacter switch
             {
@@ -39,6 +64,18 @@ namespace Day10
                 '}' => 1197,
                 ']' => 57,
                 '>' => 25137,
+                _ => throw new Exception("Unknown closingCharacter")
+            };
+        }
+
+        public static long GetIncompleteScore(this char closingCharacter)
+        {
+            return closingCharacter switch
+            {
+                ')' => 1,
+                '}' => 3,
+                ']' => 2,
+                '>' => 4,
                 _ => throw new Exception("Unknown closingCharacter")
             };
         }
